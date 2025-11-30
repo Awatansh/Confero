@@ -3,6 +3,7 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import { getAllTags } from '../../utils/contentHelpers';
 
 const allTags = await getAllTags();
+const base = import.meta.env.BASE_URL;
 ---
 
 <PageLayout title="All Tags">
@@ -14,7 +15,7 @@ const allTags = await getAllTags();
 
     <div class="tags-grid">
       {allTags.map(tag => (
-        <a href={`/tags/${tag}`} class="tag-item">
+        <a href={`${base}/tags/${tag}`} class="tag-item">
           #{tag}
         </a>
       ))}

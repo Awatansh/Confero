@@ -5,7 +5,7 @@ import remarkMath from 'remark-math';
 import rehypeMathjax from 'rehype-mathjax';
 
 export default defineConfig({
-  site: 'https://Awatansh.github.io',
+  site: 'https://Awatansh.github.io/Confero',
   base: '/Confero',
   integrations: [
     mdx({
@@ -15,4 +15,5 @@ export default defineConfig({
     sitemap()
   ],
   output: 'static',
+  trailingSlash: 'ignore',
 });

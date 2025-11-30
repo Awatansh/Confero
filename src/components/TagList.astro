@@ -4,11 +4,12 @@ interface Props {
 }
 
 const { tags } = Astro.props;
+const base = import.meta.env.BASE_URL;
 ---
 
 <div class="tag-list">
   {tags.map((tag) => (
-    <a href={`/tags/${tag}`} class="tag-chip">
+    <a href={`${base}/tags/${tag}`} class="tag-chip">
       #{tag}
     </a>
   ))}

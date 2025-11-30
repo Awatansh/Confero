@@ -5,7 +5,8 @@ import remarkMath from 'remark-math';
 import rehypeMathjax from 'rehype-mathjax';
 
 export default defineConfig({
-  site: 'https://Awatansh.github.io/confero', // Replace with your domain
+  site: 'https://Awatansh.github.io',
+  base: '/Confero',
   integrations: [
     mdx({
       remarkPlugins: [remarkMath],

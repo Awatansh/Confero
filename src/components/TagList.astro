@@ -1,0 +1,45 @@
+---
+interface Props {
+  tags: string[];
+}
+
+const { tags } = Astro.props;
+---
+
+<div class="tag-list">
+  {tags.map((tag) => (
+    <a href={`/tags/${tag}`} class="tag-chip">
+      #{tag}
+    </a>
+  ))}
+</div>
+
+<style>
+  .tag-list {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 0.5rem 0;
+  }
+
+  .tag-chip {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: var(--color-primary);
+    padding: 0.4rem 0.8rem;
+    border-radius: 2rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+  }
+
+  .tag-chip:hover {
+    background-color: rgba(59, 130, 246, 0.2);
+    border-color: var(--color-primary);
+  }
+
+  html.dark .tag-chip {
+    background-color: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+</style>

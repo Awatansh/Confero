@@ -1,0 +1,36 @@
+{
+  "name": "confero",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "Multi-space MDX blog with Astro",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "lint": "prettier --check \"src/**/*.{astro,js,ts,json,md,mdx}\"",
+    "format": "prettier --write \"src/**/*.{astro,js,ts,json,md,mdx}\"",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^2.0.0",
+    "@astrojs/rss": "^4.0.0",
+    "@astrojs/sitemap": "^3.0.0",
+    "astro": "^4.16.19",
+    "reading-time": "^1.5.0",
+    "rehype-mathjax": "^7.1.0",
+    "remark-math": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@vitest/coverage-v8": "^1.6.1",
+    "@vitest/ui": "^1.6.1",
+    "prettier": "^3.7.3",
+    "prettier-plugin-astro": "^0.12.3",
+    "vitest": "^1.6.1"
+  }
+}

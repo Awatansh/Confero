@@ -1,0 +1,61 @@
+---
+title: "Gradient Descent Explained"
+description: "How gradient descent works and why it's fundamental to machine learning."
+date: "2025-01-22"
+tags: ["ml", "optimization", "math"]
+space: "ml"
+---
+
+# Gradient Descent Explained
+
+Gradient descent is one of the most important optimization algorithms in machine learning.
+
+## The Basic Idea
+
+Imagine you're on a hill in the fog and want to reach the valley. You can't see far, so you take small steps in the direction of steepest descent. That's gradient descent!
+
+The update rule at each step:
+
+- θ(t+1) = θ(t) - α \* ∇J(θ(t))
+
+Where:
+
+- **θ** = Model parameters
+- **α** = Learning rate (step size)
+- **∇J(θ)** = Gradient of the cost function
+
+## Types of Gradient Descent
+
+### Batch Gradient Descent
+
+- Uses entire dataset
+- Stable but slow
+- Good for convex problems
+
+### Stochastic Gradient Descent (SGD)
+
+- Updates after each sample
+- Faster, noisier
+- Can escape local minima
+
+### Mini-batch Gradient Descent
+
+- Updates after small batches
+- Best of both worlds
+- Most commonly used
+
+## Learning Rate
+
+The learning rate controls step size:
+
+- **Too small** - Very slow convergence
+- **Too large** - May overshoot minima
+- **Just right** - Converges efficiently
+
+## Challenges
+
+1. **Local Minima** - Especially in non-convex problems
+2. **Plateaus** - Slow progress in flat regions
+3. **Oscillation** - Bouncing around minima
+
+Modern optimizers like Adam help address these issues!

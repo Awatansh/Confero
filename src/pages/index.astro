@@ -1,0 +1,231 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import SpaceCard from '../components/SpaceCard.astro';
+import PostList from '../components/PostList.astro';
+import { getAllPosts } from '../utils/contentHelpers';
+import spaces from '../spaces.json';
+
+const allPosts = await getAllPosts();
+const latestPosts = allPosts.slice(0, 5);
+---
+
+<PageLayout title="Confero - Multi-Space Blog">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
+    <!-- Hero Section -->
+    <section class="hero">
+      <h1>Welcome to Confero</h1>
+      <p>Explore knowledge across multiple disciplines through interconnected spaces.</p>
+      <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
+        <a href="/spaces" class="btn btn-primary">Explore Spaces</a>
+        <a href="/rss.xml" class="btn btn-secondary">Subscribe (RSS)</a>
+      </div>
+    </section>
+
+    <!-- Spaces Grid -->
+    <section class="spaces-section">
+      <h2>Knowledge Spaces</h2>
+      <div class="spaces-grid">
+        {spaces.map((space: any) => (
+          <SpaceCard
+            id={space.id}
+            title={space.title}
+            description={space.description}
+            icon={space.icon}
+            link={`/spaces/${space.id}`}
+          />
+        ))}
+      </div>
+    </section>
+
+    <!-- Latest Posts -->
+    {latestPosts.length > 0 && (
+      <section class="latest-section">
+        <h2>Latest Articles</h2>
+        <PostList posts={latestPosts} />
+        <div style="text-align: center; margin-top: 2rem;">
+          <a href="/spaces" class="link-more">View all articles →</a>
+        </div>
+      </section>
+    )}
+  </div>
+</PageLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 6rem 2rem;
+    margin-bottom: 6rem;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+    border-radius: var(--radius-lg);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    animation: pulse 8s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.1) rotate(180deg); }
+  }
+
+  .hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+    z-index: 1;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+
+  .hero p {
+    font-size: 1.25rem;
+    color: rgba(0, 0, 0, 0.7);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+  }
+
+  html.dark .hero p {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    transition: all var(--transition-base);
+    text-decoration: none;
+    position: relative;
+    z-index: 1;
+    font-size: 1.05rem;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: white;
+    box-shadow: var(--shadow-md);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+  }
+
+  .btn-secondary:hover {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: white;
+    border-color: transparent;
+  }
+
+  .spaces-section {
+    margin-bottom: 6rem;
+  }
+
+  .spaces-section h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+  }
+
+  .spaces-section h2::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    margin: 1rem auto 0;
+    border-radius: var(--radius-full);
+  }
+
+  .spaces-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .latest-section {
+    margin-top: 6rem;
+    padding-top: 3rem;
+    border-top: 2px solid var(--color-border);
+  }
+
+  .latest-section h2 {
+    margin-bottom: 3rem;
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+
+  .latest-section h2::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    margin: 1rem 0 0;
+    border-radius: var(--radius-full);
+  }
+
+  .link-more {
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+  }
+
+  .link-more:hover {
+    gap: 1rem;
+    color: var(--color-secondary);
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding: 4rem 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+    }
+
+    .spaces-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .spaces-section h2,
+    .latest-section h2 {
+      font-size: 2rem;
+    }
+  }
+</style>

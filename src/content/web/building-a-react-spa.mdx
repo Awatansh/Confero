@@ -1,0 +1,63 @@
+---
+title: "Building a React SPA"
+description: "Complete guide to building Single Page Applications with React."
+date: "2025-01-12"
+tags: ["web", "react", "frontend"]
+space: "web"
+---
+
+# Building a React SPA
+
+Single Page Applications provide fast, app-like experiences on the web.
+
+## What is a SPA?
+
+A Single Page Application (SPA) is a web application that:
+
+- Loads once
+- Updates dynamically without page reloads
+- Uses client-side routing
+- Fetches data via APIs
+
+## Key Technologies
+
+```
+┌─────────────────────────────┐
+│   User Interface (React)    │
+├─────────────────────────────┤
+│   State Management (Redux)  │
+├─────────────────────────────┤
+│   Routing (React Router)    │
+├─────────────────────────────┤
+│   API Communication (Fetch) │
+└─────────────────────────────┘
+```
+
+## Project Structure
+
+```
+src/
+├── components/
+├── pages/
+├── services/
+├── store/
+└── App.jsx
+```
+
+## State Management
+
+Choose based on complexity:
+
+- **Props** - Simple apps
+- **Context API** - Medium complexity
+- **Redux** - Large apps with complex state
+- **Zustand** - Lightweight alternative
+
+## Performance Tips
+
+- Code splitting with React.lazy()
+- Memoization with React.memo()
+- Virtual list for large datasets
+- Debouncing/throttling for events
+
+SPAs provide excellent user experiences when built well!

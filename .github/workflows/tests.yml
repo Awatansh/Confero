@@ -1,0 +1,336 @@
+name: 'Tests & Quality Checks'
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+# Required for blocking PRs
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+jobs:
+  # Job 1: Linting & Formatting
+  lint:
+    name: 'Lint & Format Check'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run ESLint (if configured)
+        run: npm run lint --if-present
+        continue-on-error: false
+      
+      - name: Check formatting (Prettier)
+        run: npx prettier --check "src/**/*.{astro,js,ts,json,md,mdx}"
+        continue-on-error: false
+
+  # Job 2: TypeScript Type Check
+  typecheck:
+    name: 'TypeScript Type Check'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run TypeScript check
+        run: npx astro check
+        continue-on-error: false
+
+  # Job 3: Build Test
+  build:
+    name: 'Build Verification'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build project
+        run: npm run build
+        continue-on-error: false
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 1
+
+  # Job 4: MDX Content Validation
+  mdx-validation:
+    name: 'MDX Content Validation'
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      
+      - name: Run MDX validation tests
+        run: npm test -- tests/content-validation.test.js
+        continue-on-error: false
+
+  # Job 5: Page Generation Tests
+  page-generation:
+    name: 'Page Generation Tests'
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      
+      - name: Run page generation tests
+        run: npm test -- tests/page-generation.test.js
+        continue-on-error: false
+
+  # Job 6: Space System Tests
+  space-system:
+    name: 'Space System Tests'
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run space system tests
+        run: npm test -- tests/space-system.test.js
+        continue-on-error: false
+
+  # Job 7: Tag System Tests
+  tag-system:
+    name: 'Tag System Tests'
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run tag system tests
+        run: npm test -- tests/tag-system.test.js
+        continue-on-error: false
+
+  # Job 8: RSS & Sitemap Tests
+  rss-sitemap:
+    name: 'RSS & Sitemap Tests'
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      
+      - name: Run RSS & Sitemap tests
+        run: npm test -- tests/rss-sitemap.test.js
+        continue-on-error: false
+
+  # Job 9: UI Component Tests
+  ui-components:
+    name: 'UI Component Tests'
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      
+      - name: Run UI component tests
+        run: npm test -- tests/ui-components.test.js
+        continue-on-error: false
+
+  # Job 10: Asset & Link Tests
+  assets-links:
+    name: 'Asset & Link Tests'
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      
+      - name: Run asset & link tests
+        run: npm test -- tests/assets-links.test.js
+        continue-on-error: false
+
+  # Job 11: Full Test Suite
+  all-tests:
+    name: 'All Tests'
+    runs-on: ubuntu-latest
+    needs: [lint, typecheck, build]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      
+      - name: Run all tests
+        run: npm test
+        continue-on-error: false
+      
+      - name: Generate test coverage report
+        run: npm test -- --coverage
+        continue-on-error: true
+
+  # Job 12: Status Check (Required for PR blocking)
+  required-checks:
+    name: 'Required Checks ✓'
+    runs-on: ubuntu-latest
+    needs: [
+      lint,
+      typecheck,
+      build,
+      mdx-validation,
+      page-generation,
+      space-system,
+      tag-system,
+      rss-sitemap,
+      ui-components,
+      assets-links
+    ]
+    
+    steps:
+      - name: All checks passed
+        run: echo "✓ All required checks passed!"

@@ -1,0 +1,35 @@
+---
+import SpaceLayout from '../../../layouts/SpaceLayout.astro';
+import { getCollection } from 'astro:content';
+import { getSpaceTitle } from '../../../utils/breadcrumbs';
+import spaces from '../../../spaces.json';
+
+export async function getStaticPaths() {
+  const spaceIds = ['ml', 'transformers', 'web', 'notes', 'blog'];
+  
+  return spaceIds.map(spaceId => ({
+    params: { space: spaceId },
+  }));
+}
+
+const { space } = Astro.params;
+const spaceData = spaces.find((s: any) => s.id === space);
+const spaceTitle = getSpaceTitle(space!);
+
+let posts: any[] = [];
+try {
+  posts = await getCollection(space as any);
+  posts = posts.sort((a, b) => 
+    new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+  );
+} catch (e) {
+  // Collection doesn't exist yet
+}
+---
+
+<SpaceLayout
+  space={space!}
+  title={spaceTitle}
+  description={spaceData?.description || `Explore ${spaceTitle}`}
+  posts={posts}
+/>

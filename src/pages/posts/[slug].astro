@@ -1,0 +1,62 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
+import { calculateReadingTime } from '../../utils/contentHelpers';
+
+export async function getStaticPaths() {
+  const allPosts: any[] = [];
+  const collections = ['blog', 'ml', 'transformers', 'web', 'notes'];
+  
+  for (const collectionName of collections) {
+    try {
+      const posts = await getCollection(collectionName as any);
+      allPosts.push(...posts.map(post => ({
+        ...post,
+        collection: collectionName,
+      })));
+    } catch (e) {
+      // Collection might not exist
+    }
+  }
+  
+  return allPosts.map((post, index, array) => {
+    // Find posts in the same collection for prev/next navigation
+    const sameColl = array.filter(p => p.collection === post.collection);
+    const currentIndex = sameColl.findIndex(p => p.slug === post.slug);
+    
+    return {
+      params: { slug: post.slug },
+      props: { 
+        post, 
+        collectionName: post.collection,
+        prevPost: currentIndex > 0 ? sameColl[currentIndex - 1] : null,
+        nextPost: currentIndex < sameColl.length - 1 ? sameColl[currentIndex + 1] : null,
+      },
+    };
+  });
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  collectionName: string;
+  prevPost: any;
+  nextPost: any;
+}
+
+const { post, collectionName, prevPost, nextPost } = Astro.props;
+const { Content } = await post.render();
+const readingTime = calculateReadingTime(post.body || '');
+---
+
+<BlogPostLayout
+  title={post.data.title}
+  description={post.data.description}
+  space={post.data.space}
+  tags={post.data.tags || []}
+  date={post.data.date}
+  readingTime={readingTime}
+  prevPost={prevPost}
+  nextPost={nextPost}
+>
+  <Content />
+</BlogPostLayout>

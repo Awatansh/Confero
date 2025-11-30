@@ -1,0 +1,283 @@
+---
+import PageLayout from './PageLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import TagList from '../components/TagList.astro';
+import { generateBreadcrumbs, getSpaceTitle } from '../utils/breadcrumbs';
+
+interface Props {
+  title: string;
+  description: string;
+  space: string;
+  tags: string[];
+  date: Date;
+  readingTime: string;
+  prevPost?: any;
+  nextPost?: any;
+}
+
+const { title, description, space, tags, date, readingTime, prevPost, nextPost } = Astro.props;
+const breadcrumbs = generateBreadcrumbs(space, title);
+const spaceTitle = getSpaceTitle(space);
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+}).format(date);
+---
+
+<PageLayout title={title} description={description}>
+  <article style="padding: 2rem; max-width: 1000px; margin: 0 auto;">
+    <Breadcrumbs items={breadcrumbs} />
+    
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+      <a href={`/spaces/${space}`} class="nav-link">
+        <span class="nav-icon">←</span> Back to {spaceTitle}
+      </a>
+      <a href="/spaces" class="nav-link">
+        All Spaces <span class="nav-icon">→</span>
+      </a>
+    </nav>
+    
+    <header style="margin: 3rem 0;">
+      <h1>{title}</h1>
+      <p class="post-meta-info">
+        <time datetime={date.toISOString()}>{formattedDate}</time>
+        <span style="margin: 0 0.5rem;">•</span>
+        <span>{readingTime}</span>
+      </p>
+      {tags && tags.length > 0 && (
+        <div style="margin: 1rem 0;">
+          <TagList tags={tags} />
+        </div>
+      )}
+    </header>
+
+    <div style="margin: 3rem 0;">
+      <slot />
+    </div>
+
+    <!-- Bottom Navigation: Previous/Next Posts -->
+    {(prevPost || nextPost) && (
+      <nav class="bottom-nav">
+        <div class="nav-item prev">
+          {prevPost ? (
+            <a href={`/posts/${prevPost.slug}`} class="post-nav-link">
+              <span class="nav-label">← Previous</span>
+              <span class="post-title">{prevPost.data.title}</span>
+            </a>
+          ) : (
+            <div></div>
+          )}
+        </div>
+        <div class="nav-item next">
+          {nextPost ? (
+            <a href={`/posts/${nextPost.slug}`} class="post-nav-link">
+              <span class="nav-label">Next →</span>
+              <span class="post-title">{nextPost.data.title}</span>
+            </a>
+          ) : (
+            <div></div>
+          )}
+        </div>
+      </nav>
+    )}
+  </article>
+
+  <style>
+    article {
+      font-size: 1rem;
+      line-height: 1.8;
+      background-color: #fafaf9;
+      padding: 3rem 2rem !important;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+    }
+
+    html.dark article {
+      background-color: #1c1c1c;
+    }
+
+    article :global(h1) {
+      font-size: 2.5rem;
+      margin-top: 0;
+    }
+
+    article :global(h2) {
+      margin-top: 2rem;
+    }
+
+    article :global(p) {
+      line-height: 1.8;
+      margin: 1.5rem 0;
+    }
+
+    article :global(pre) {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      overflow-x: auto;
+    }
+
+    article :global(code) {
+      font-size: 0.9em;
+    }
+
+    article :global(pre code) {
+      background-color: transparent;
+      padding: 0;
+    }
+
+    article :global(blockquote) {
+      font-style: italic;
+      opacity: 0.8;
+    }
+
+    article :global(img) {
+      margin: 2rem 0;
+      border-radius: 0.5rem;
+    }
+
+    .post-meta-info {
+      color: rgba(0, 0, 0, 0.65);
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+
+    html.dark .post-meta-info {
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    header {
+      border-bottom: 2px solid var(--color-border);
+      padding-bottom: 2rem;
+    }
+
+    /* Top Navigation */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      margin: 1rem 0 2rem;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+      border-radius: var(--radius-md);
+      border: 2px solid var(--color-border);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-md);
+      transition: all var(--transition-fast);
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .nav-link:hover {
+      background-color: rgba(59, 130, 246, 0.1);
+      transform: translateX(0);
+    }
+
+    .nav-link:first-child:hover {
+      transform: translateX(-4px);
+    }
+
+    .nav-link:last-child:hover {
+      transform: translateX(4px);
+    }
+
+    .nav-icon {
+      font-size: 1.1em;
+      transition: transform var(--transition-fast);
+    }
+
+    /* Bottom Navigation: Prev/Next */
+    .bottom-nav {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 2px solid var(--color-border);
+    }
+
+    .nav-item {
+      min-height: 100px;
+    }
+
+    .nav-item.prev {
+      text-align: left;
+    }
+
+    .nav-item.next {
+      text-align: right;
+    }
+
+    .post-nav-link {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 1.5rem;
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(139, 92, 246, 0.03) 100%);
+      transition: all var(--transition-base);
+      text-decoration: none;
+      height: 100%;
+    }
+
+    .post-nav-link:hover {
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+    }
+
+    .nav-label {
+      font-size: 0.85rem;
+      color: var(--color-primary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .post-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--color-text);
+      line-height: 1.4;
+    }
+
+    @media (max-width: 768px) {
+      .bottom-nav {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .nav-item.next {
+        text-align: left;
+      }
+
+      .top-nav {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .nav-link {
+        justify-content: center;
+      }
+    }
+
+    html.dark article {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    html.dark article :global(p) {
+      color: rgba(255, 255, 255, 0.6);
+    }
+  </style>
+</PageLayout>

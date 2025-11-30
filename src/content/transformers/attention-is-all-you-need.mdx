@@ -1,0 +1,54 @@
+---
+title: "Attention is All You Need"
+description: "Exploring the transformer architecture and the attention mechanism that revolutionized NLP."
+date: "2025-01-18"
+tags: ["transformers", "attention", "architecture"]
+space: "transformers"
+---
+
+# Attention is All You Need
+
+The transformer architecture, introduced in 2017, fundamentally changed how we approach sequence-to-sequence tasks.
+
+## The Problem with RNNs
+
+Before transformers, RNNs and LSTMs were the standard for processing sequences. However, they had limitations:
+
+- **Sequential processing** - Can't parallelize computation
+- **Long-range dependencies** - Information can get lost
+- **Slow training** - Processing must be sequential
+
+## Enter: Self-Attention
+
+Self-attention allows each position in a sequence to directly attend to all other positions. The mechanism works by:
+
+1. Computing a **Query** for each position
+2. Comparing it with all **Keys** in the sequence
+3. Computing attention weights
+4. Combining the **Values** weighted by these scores
+
+Key components:
+
+- **Query (Q)** - What am I looking for?
+- **Key (K)** - What is each position about?
+- **Value (V)** - What should I return?
+- **d_k** - Dimension of keys
+
+## Multi-Head Attention
+
+Multiple attention heads allow the model to:
+
+- Attend to different parts of the input simultaneously
+- Focus on different representation subspaces
+- Capture diverse types of relationships
+
+Each head learns different attention patterns independently, then concatenated together.
+
+## Advantages of Transformers
+
+✓ **Parallelization** - All positions can be processed simultaneously
+✓ **Long-range dependencies** - Direct connections between all tokens
+✓ **Scalability** - Efficiently scales to large datasets
+✓ **Transfer learning** - Pre-trained models can be fine-tuned
+
+This architecture became the foundation for GPT, BERT, and modern LLMs!

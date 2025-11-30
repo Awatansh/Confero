@@ -1,0 +1,40 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PostList from '../../components/PostList.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { getAllTags, getPostsByTag, getAllPosts } from '../../utils/contentHelpers';
+
+export async function getStaticPaths() {
+  const allTags = await getAllTags();
+  
+  return allTags.map(tag => ({
+    params: { tag },
+  }));
+}
+
+const { tag } = Astro.params;
+const posts = await getPostsByTag(tag!);
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Tags', href: '/tags' },
+  { label: `#${tag}`, href: '#' },
+];
+---
+
+<PageLayout title={`Tag: ${tag}`} description={`Posts tagged with ${tag}`}>
+  <div style="max-width: 1000px; margin: 0 auto; padding: 2rem;">
+    <Breadcrumbs items={breadcrumbs} />
+    
+    <header style="text-align: center; margin: 2rem 0; padding: 2rem 0; border-bottom: 2px solid var(--color-border);">
+      <h1>#{tag}</h1>
+      <p>{posts.length} {posts.length === 1 ? 'post' : 'posts'} tagged</p>
+    </header>
+
+    {posts.length > 0 ? (
+      <PostList posts={posts} />
+    ) : (
+      <p style="text-align: center; color: rgba(0, 0, 0, 0.6);">No posts found with this tag.</p>
+    )}
+  </div>
+</PageLayout>

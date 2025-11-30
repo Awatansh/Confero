@@ -1,0 +1,49 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import SpaceCard from '../../components/SpaceCard.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import spaces from '../../spaces.json';
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Spaces', href: '#' },
+];
+---
+
+<PageLayout title="All Spaces">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
+    <Breadcrumbs items={breadcrumbs} />
+    
+    <header style="text-align: center; margin: 3rem 0; border-bottom: 2px solid var(--color-border); padding-bottom: 2rem;">
+      <h1>Knowledge Spaces</h1>
+      <p>Explore our curated collection of knowledge spaces</p>
+    </header>
+
+    <div class="spaces-grid">
+      {spaces.map((space: any) => (
+        <SpaceCard
+          id={space.id}
+          title={space.title}
+          description={space.description}
+          icon={space.icon}
+          link={`/spaces/${space.id}`}
+        />
+      ))}
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .spaces-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+  }
+
+  @media (max-width: 768px) {
+    .spaces-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

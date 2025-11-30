@@ -1,0 +1,56 @@
+---
+title: "Getting Started with Astro"
+description: "Build fast websites with less JavaScript using Astro."
+date: "2025-01-10"
+tags: ["blog", "astro", "web"]
+space: "blog"
+---
+
+# Getting Started with Astro
+
+Astro is a modern framework for building fast websites with less JavaScript.
+
+## What is Astro?
+
+Astro is a static site builder that allows you to:
+
+- Write components in your favorite framework (React, Vue, Svelte, etc.)
+- Ship zero JavaScript by default
+- Use dynamic islands only where needed
+- Get automatic optimizations
+
+## Installation
+
+```bash
+npm create astro@latest my-project
+cd my-project
+npm run dev
+```
+
+## Your First Component
+
+Create a `.astro` component:
+
+```astro
+---
+const name = "World";
+---
+
+<h1>Hello {name}!</h1>
+
+<style>
+  h1 {
+    color: purple;
+  }
+</style>
+```
+
+## Key Features
+
+🚀 **Performance** - Serves minimal JavaScript
+📦 **Component Framework Agnostic** - Use React, Vue, Svelte together
+🎨 **Built-in Styling** - Scoped styles by default
+📝 **Content Collections** - Organize your content elegantly
+🔌 **Integrations** - Works with MDX, RSS, Sitemap, etc.
+
+Astro is perfect for blogs, documentation, portfolios, and more!

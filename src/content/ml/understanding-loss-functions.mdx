@@ -1,0 +1,56 @@
+---
+title: "Understanding Loss Functions"
+description: "A deep dive into loss functions used in ML models and how they guide training."
+date: "2025-01-20"
+tags: ["loss", "optimization", "fundamentals"]
+space: "ml"
+---
+
+# Understanding Loss Functions
+
+Loss functions are the backbone of machine learning. They measure how well your model is performing and guide the optimization process.
+
+## What is a Loss Function?
+
+A loss function (also called cost function or objective function) is a mathematical function that quantifies the difference between the predicted output and the actual target value.
+
+Loss = f(y, y_predicted)
+
+Where:
+
+- **y** is the true label
+- **y_predicted** is the predicted value
+- **Loss** is how wrong the prediction is
+
+## Common Loss Functions
+
+### Mean Squared Error (MSE)
+
+The most common loss function for regression:
+
+- MSE = average of (y_i - y_predicted_i)^2
+- Penalizes larger errors more heavily
+- Good for regression tasks
+
+### Cross-Entropy Loss
+
+Used primarily for classification:
+
+- Measures difference between probability distributions
+- Commonly used with neural networks
+- Good for classification tasks
+
+## Why Loss Functions Matter
+
+1. **Optimization guidance** - The loss function tells the optimizer which direction to update the weights
+2. **Model evaluation** - It measures how well the model generalizes
+3. **Training dynamics** - Different loss functions lead to different training behaviors
+
+## Choosing the Right Loss Function
+
+- **Regression**: MSE, MAE, Huber
+- **Binary Classification**: Binary Cross-Entropy
+- **Multi-class Classification**: Categorical Cross-Entropy
+- **Imbalanced Data**: Focal Loss, Weighted Cross-Entropy
+
+The choice of loss function can significantly impact your model's performance!

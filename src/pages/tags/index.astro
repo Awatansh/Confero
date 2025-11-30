@@ -1,0 +1,48 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { getAllTags } from '../../utils/contentHelpers';
+
+const allTags = await getAllTags();
+---
+
+<PageLayout title="All Tags">
+  <div style="max-width: 1000px; margin: 0 auto; padding: 2rem;">
+    <header style="text-align: center; margin: 2rem 0; padding: 2rem 0; border-bottom: 2px solid var(--color-border);">
+      <h1>All Tags</h1>
+      <p>Browse posts by topic</p>
+    </header>
+
+    <div class="tags-grid">
+      {allTags.map(tag => (
+        <a href={`/tags/${tag}`} class="tag-item">
+          #{tag}
+        </a>
+      ))}
+    </div>
+  </div>
+</PageLayout>
+
+<style>
+  .tags-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin: 3rem 0;
+  }
+
+  .tag-item {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: var(--color-primary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 2rem;
+    font-weight: 500;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+  }
+
+  .tag-item:hover {
+    background-color: rgba(59, 130, 246, 0.2);
+    border-color: var(--color-primary);
+  }
+</style>

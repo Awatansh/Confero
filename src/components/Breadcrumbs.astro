@@ -1,0 +1,84 @@
+---
+interface Props {
+  items: Array<{ label: string; href: string }>;
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="breadcrumbs">
+  <span class="breadcrumb-home">🏠</span>
+  {items.map((item, index) => (
+    <span class="breadcrumb-item">
+      <span class="breadcrumb-separator">/</span>
+      {item.href === '#' ? (
+        <span class="breadcrumb-current">{item.label}</span>
+      ) : (
+        <a href={item.href} class="breadcrumb-link">
+          {item.label}
+        </a>
+      )}
+    </span>
+  ))}
+</nav>
+
+<style>
+  .breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    margin: 1rem 0 2rem;
+    padding: 1rem;
+    background: rgba(59, 130, 246, 0.05);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--color-primary);
+  }
+
+  html.dark .breadcrumbs {
+    background: rgba(59, 130, 246, 0.1);
+  }
+
+  .breadcrumb-home {
+    font-size: 1.1rem;
+  }
+
+  .breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .breadcrumb-separator {
+    color: var(--color-border);
+    font-weight: 300;
+  }
+
+  .breadcrumb-link {
+    color: var(--color-primary);
+    transition: all var(--transition-fast);
+    position: relative;
+    text-decoration: none;
+  }
+
+  .breadcrumb-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--color-primary);
+    transition: width var(--transition-fast);
+  }
+
+  .breadcrumb-link:hover::after {
+    width: 100%;
+  }
+
+  .breadcrumb-current {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+</style>

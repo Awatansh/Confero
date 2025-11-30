@@ -1,0 +1,65 @@
+---
+import PageLayout from './PageLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PostList from '../components/PostList.astro';
+import { getSpaceTitle } from '../utils/breadcrumbs';
+
+interface Props {
+  space: string;
+  title: string;
+  description: string;
+  posts: any[];
+}
+
+const { space, title, description, posts } = Astro.props;
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Spaces', href: '/spaces' },
+  { label: title, href: `#` },
+];
+---
+
+<PageLayout title={title} description={description}>
+  <div style="padding: 2rem; max-width: 1200px; margin: 0 auto;">
+    <Breadcrumbs items={breadcrumbs} />
+    
+    <header style="margin: 2rem 0; padding: 2rem 0; border-bottom: 2px solid var(--color-border);">
+      <h1>{title}</h1>
+      <p>{description}</p>
+    </header>
+
+    {posts.length > 0 ? (
+      <PostList posts={posts} />
+    ) : (
+      <p style="text-align: center; color: rgba(0, 0, 0, 0.6);">
+        No posts yet in this space.
+      </p>
+    )}
+
+    <nav style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--color-border); text-align: center;">
+      <a href="/spaces">← Back to all spaces</a>
+    </nav>
+  </div>
+
+  <style>
+    header {
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      color: rgba(0, 0, 0, 0.6);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    html.dark header p {
+      color: rgba(255, 255, 255, 0.6);
+    }
+  </style>
+</PageLayout>

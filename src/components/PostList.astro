@@ -1,0 +1,140 @@
+---
+import { calculateReadingTime } from '../utils/contentHelpers';
+
+interface Props {
+  posts: any[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="post-list">
+  {posts.length === 0 ? (
+    <p style="text-align: center; color: rgba(0, 0, 0, 0.6);">No posts yet.</p>
+  ) : (
+    posts.map((post) => (
+      <article class="post-item">
+        <a href={`/posts/${post.slug}`}>
+          <h3>{post.data.title}</h3>
+        </a>
+        <p class="description">{post.data.description}</p>
+        <div class="post-meta">
+          <time datetime={post.data.date.toISOString()}>
+            {new Intl.DateTimeFormat('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            }).format(post.data.date)}
+          </time>
+          <span>•</span>
+          <span>{calculateReadingTime(post.body || '')}</span>
+          {post.data.tags && post.data.tags.length > 0 && (
+            <>
+              <span>•</span>
+              <div class="tags">
+                {post.data.tags.map((tag: string) => (
+                  <a href={`/tags/${tag}`} class="tag">
+                    {tag}
+                  </a>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </article>
+    ))
+  )}
+</div>
+
+<style>
+  .post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .post-item {
+    padding: 2rem;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-base);
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.02) 0%, rgba(139, 92, 246, 0.02) 100%);
+  }
+
+  .post-item:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-lg);
+    transform: translateX(4px);
+  }
+
+  html.dark .post-item:hover {
+    background-color: rgba(59, 130, 246, 0.08);
+  }
+
+  .post-item h3 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    transition: color var(--transition-fast);
+  }
+
+  .post-item a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .post-item a:hover {
+    color: var(--color-primary);
+  }
+
+  .post-item a:hover h3 {
+    color: var(--color-secondary);
+  }
+
+  .description {
+    color: rgba(0, 0, 0, 0.7);
+    margin: 0.5rem 0 1.25rem 0;
+    line-height: 1.6;
+  }
+
+  html.dark .description {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.6);
+    flex-wrap: wrap;
+  }
+
+  html.dark .post-meta {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    color: white;
+    padding: 0.375rem 1rem;
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all var(--transition-fast);
+    opacity: 0.85;
+    text-decoration: none;
+  }
+
+  .tag:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+</style>

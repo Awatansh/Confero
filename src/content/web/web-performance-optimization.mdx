@@ -1,0 +1,71 @@
+---
+title: "Web Performance Optimization"
+description: "Best practices for building fast, responsive web applications."
+date: "2025-01-15"
+tags: ["web", "performance", "optimization"]
+space: "web"
+---
+
+# Web Performance Optimization
+
+Speed matters. Users expect web applications to load quickly and respond instantly.
+
+## Core Web Vitals
+
+Google's Core Web Vitals measure real-world user experience:
+
+### Largest Contentful Paint (LCP)
+
+- How quickly the main content loads
+- Target: < 2.5 seconds
+
+### First Input Delay (FID)
+
+- How responsive the page is to user input
+- Target: < 100 milliseconds
+
+### Cumulative Layout Shift (CLS)
+
+- Visual stability of the page
+- Target: < 0.1
+
+## Performance Optimization Tips
+
+### 1. Code Splitting
+
+Lazy load code that isn't needed immediately:
+
+```javascript
+const Module = lazy(() => import("./HeavyComponent"));
+```
+
+### 2. Image Optimization
+
+- Use modern formats (WebP, AVIF)
+- Responsive images with srcset
+- Lazy loading for below-the-fold images
+
+### 3. Caching Strategies
+
+- Browser caching for static assets
+- Service workers for offline support
+- CDN for global distribution
+
+### 4. Bundle Analysis
+
+Monitor your bundle size:
+
+```bash
+npm run build -- --analyze
+```
+
+## Measuring Performance
+
+Tools you should use:
+
+- **Lighthouse** - Built into Chrome DevTools
+- **WebPageTest** - In-depth analysis
+- **PageSpeed Insights** - Quick checks
+- **Sentry** - Real user monitoring
+
+Performance isn't optional—it's essential!

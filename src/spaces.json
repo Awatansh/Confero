@@ -1,0 +1,37 @@
+[
+  {
+    "id": "ml",
+    "title": "Machine Learning",
+    "description": "Fundamentals, math, intuition, hands-on ML.",
+    "banner": "/assets/banners/ml.png",
+    "icon": "🤖"
+  },
+  {
+    "id": "transformers",
+    "title": "Transformers",
+    "description": "Attention, LLMs, architecture breakdowns.",
+    "banner": "/assets/banners/transformers.png",
+    "icon": "⚡"
+  },
+  {
+    "id": "web",
+    "title": "Web Development",
+    "description": "Frontend frameworks, design principles.",
+    "banner": "/assets/banners/web.png",
+    "icon": "🌐"
+  },
+  {
+    "id": "notes",
+    "title": "General Notes",
+    "description": "Miscellaneous notes and insights.",
+    "banner": "/assets/banners/notes.png",
+    "icon": "📝"
+  },
+  {
+    "id": "blog",
+    "title": "Blog",
+    "description": "Latest articles and updates.",
+    "banner": "/assets/banners/blog.png",
+    "icon": "📖"
+  }
+]

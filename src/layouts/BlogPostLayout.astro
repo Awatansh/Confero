@@ -31,10 +31,10 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
     
     <!-- Top Navigation -->
     <nav class="top-nav">
-      <a href={`/spaces/${space}`} class="nav-link">
+      <a href={`${import.meta.env.BASE_URL}/spaces/${space}`} class="nav-link">
         <span class="nav-icon">←</span> Back to {spaceTitle}
       </a>
-      <a href="/spaces" class="nav-link">
+      <a href={`${import.meta.env.BASE_URL}/spaces`} class="nav-link">
         All Spaces <span class="nav-icon">→</span>
       </a>
     </nav>

@@ -23,9 +23,9 @@ const spaceTitle = getSpaceTitle(space);
     </article>
 
     <nav style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--color-border);">
-      <a href={`/spaces/${space}`}>← Back to {spaceTitle}</a>
+      <a href={`${import.meta.env.BASE_URL}/spaces/${space}`}>← Back to {spaceTitle}</a>
       <span style="margin: 0 1rem;">|</span>
-      <a href="/spaces">View all spaces</a>
+      <a href={`${import.meta.env.BASE_URL}/spaces`}>View all spaces</a>
     </nav>
   </div>
 

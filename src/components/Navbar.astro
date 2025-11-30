@@ -1,10 +1,11 @@
 ---
 const currentPath = Astro.url.pathname;
+const base = import.meta.env.BASE_URL;
 ---
 
 <nav class="navbar">
   <div class="nav-container">
-    <a href="/" class="logo">
+    <a href={base} class="logo">
       <span class="logo-icon">📚</span>
       <span class="logo-text">Confero</span>
     </a>
@@ -16,10 +17,10 @@ const currentPath = Astro.url.pathname;
     </button>
 
     <div class="nav-links" id="nav-links">
-      <a href="/" class={currentPath === '/' ? 'active' : ''}>Home</a>
-      <a href="/spaces" class={currentPath.startsWith('/spaces') ? 'active' : ''}>Spaces</a>
-      <a href="/tags" class={currentPath.startsWith('/tags') ? 'active' : ''}>Tags</a>
-      <a href="/rss.xml" target="_blank" class="rss-link">
+      <a href={base} class={currentPath === '/' ? 'active' : ''}>Home</a>
+      <a href={`${base}/spaces`} class={currentPath.startsWith('/spaces') ? 'active' : ''}>Spaces</a>
+      <a href={`${base}/tags`} class={currentPath.startsWith('/tags') ? 'active' : ''}>Tags</a>
+      <a href={`${base}/rss.xml`} target="_blank" class="rss-link">
         <span class="rss-icon">📡</span> RSS
       </a>
     </div>

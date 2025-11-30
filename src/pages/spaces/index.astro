@@ -4,8 +4,9 @@ import SpaceCard from '../../components/SpaceCard.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import spaces from '../../spaces.json';
 
+const base = import.meta.env.BASE_URL;
 const breadcrumbs = [
-  { label: 'Home', href: '/' },
+  { label: 'Home', href: base },
   { label: 'Spaces', href: '#' },
 ];
 ---
@@ -26,7 +27,7 @@ const breadcrumbs = [
           title={space.title}
           description={space.description}
           icon={space.icon}
-          link={`/spaces/${space.id}`}
+          link={`${base}/spaces/${space.id}`}
         />
       ))}
     </div>

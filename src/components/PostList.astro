@@ -6,6 +6,7 @@ interface Props {
 }
 
 const { posts } = Astro.props;
+const base = import.meta.env.BASE_URL;
 ---
 
 <div class="post-list">
@@ -14,7 +15,7 @@ const { posts } = Astro.props;
   ) : (
     posts.map((post) => (
       <article class="post-item">
-        <a href={`/posts/${post.slug}`}>
+        <a href={`${base}/posts/${post.slug}`}>
           <h3>{post.data.title}</h3>
         </a>
         <p class="description">{post.data.description}</p>
@@ -33,7 +34,7 @@ const { posts } = Astro.props;
               <span>•</span>
               <div class="tags">
                 {post.data.tags.map((tag: string) => (
-                  <a href={`/tags/${tag}`} class="tag">
+                  <a href={`${base}/tags/${tag}`} class="tag">
                     {tag}
                   </a>
                 ))}
